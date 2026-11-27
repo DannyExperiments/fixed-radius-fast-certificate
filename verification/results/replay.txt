@@ -1,0 +1,2 @@
+PASS: exact deterministic bounds at T=4294967296, d=879609302220801. The proof covers every fixed radius and optimism parameter.
+All 29 exact explorer settings checked, including the strict tie at 1/14.

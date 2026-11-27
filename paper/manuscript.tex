@@ -1,0 +1,80 @@
+\documentclass[11pt]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage[margin=.78in,top=.73in,bottom=.73in]{geometry}
+\usepackage{amssymb}
+\DeclareFontShape{OMX}{cmex}{m}{n}{<->cmex10}{}
+\DeclareMathSizes{8}{8}{8}{8}
+\DeclareMathSizes{9}{9}{8}{8}
+\DeclareMathSizes{10.95}{10.95}{8}{8}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Premature certification under fixed-radius FAST sampling}}
+\newtheorem{theorem}{Theorem}
+\title{Premature certification under fixed-radius FAST sampling}
+\date{27 November 2026}
+\begin{document}
+\begin{abstract}
+Feasible Action Search via Thompson Sampling (FAST) has a proven reliability guarantee under an optimism condition. We show that keeping the published stopping boundary and using a dimension-independent spherical perturbation of any fixed positive radius can fail. For any fixed boundary optimism parameter, a noiseless one-constraint simplex forces positive stopping with a true margin below the promised threshold with probability at least one quarter.
+\end{abstract}
+\maketitle
+
+\section{Question and exact rule}
+Gangrade, Pacchiano, Scott and Saligrama~\cite{GPSS} propose FAST to find a near-optimal feasible margin or certify infeasibility. Their theoretical guarantee assumes a concentration--optimism condition. They ask about reliability for smaller noise with the optimism parameter retained, and suggest uniform perturbations on a sphere of fixed radius in Appendix~B.1.2. We study Algorithm~1 with the boundary of Lemma~7 and that fixed-radius distribution.
+
+With a single constraint vector \(\theta\in\mathbb R^d\), the margin is \(M(a)=\theta^\top a\), and the optimal margin is \(M^\star=\max_{a\in A}M(a)\). In the noiseless case the scalar feedback is \(S_t=M(a_t)\). The published quantities reduce to
+\[
+ V_t=I+\sum_{s<t}a_sa_s^\top,\qquad
+ \widehat\theta_t=V_t^{-1}\sum_{s<t}a_s S_s,\qquad
+ \omega_t=1+\sqrt{\tfrac12\log(2/\alpha)+\tfrac14\log\det V_t}.
+\]
+At each round the algorithm maximizes the linear score of
+\(\widehat\theta_t+\omega_t V_t^{-1/2}\zeta_t\) over \(A\), with the \(\zeta_t\) independent and uniform on the sphere of radius \(c\). Here \(\alpha\) is the confidence parameter used internally. The dual variable for the single constraint is constant. Thus \(T_t=\sum_{s\le t}S_s\). For the deterministic concentration bound \(B(\cdot)=c\) and supplied optimism parameter \(\pi\in(0,1]\), the exact boundary is
+\[
+ b_t=\frac{(1+5c)\omega_t}{\min(\pi,1/2)}
+       \left[\sqrt{4t\log(11\max(\log t,1)/\alpha)}
+                 +\sum_{s\le t}\sqrt{a_s^\top V_s^{-1}a_s}\right].
+\]
+Set \(L_t=(T_t-b_t)/t\), \(U_t=(T_t+b_t)/t\). Positive stopping requires \(U_t>0\) and \(L_t>(1-\varepsilon)U_t\). It returns the average action \(a_{\rm out}\) and certificate \(L_t\). Reliability in a positive-margin instance requires \(M(a_{\rm out})\ge M_{\rm out}\ge(1-\varepsilon)M^\star\) with probability at least \(1-\delta\).
+
+\begin{theorem}
+Fix \(c>0\) and \(\pi\in(0,1]\), independent of dimension. There is a noiseless one-constraint instance on a full-dimensional simplex in the Euclidean unit ball where the above rule with \(\varepsilon=1/4\) and \(\delta=1/8\) stops positively and returns an action of margin \(1/2\) even though \(M^\star=3/4\), with probability at least \(1/4\). This holds when the rule uses \(\alpha=\delta\) and also when it uses \(\alpha=\delta/5\).
+\end{theorem}
+
+\section{The boundary passes on a repeated action}
+Let \(\theta=(1/2,3/4,0,\ldots,0)\) and let \(e_1,e_2\) be standard basis vectors. The simplex will have vertices
+\[
+                 0,\ e_1,\ e_2,\ \eta e_3,\ldots,\eta e_d
+\]
+for some \(0<\eta\le 1\) chosen below. The vertices are affinely independent and in the unit ball. The vector \(\theta\) has norm \(\sqrt{13}/4<1\); any reward vector can be set to zero. Taking the feedback noise zero obeys the source's conditional sub-Gaussian assumption. The optimal margin is \(3/4\) at \(e_2\). Repeating \(e_1\) yields margin \(1/2<9/16=(1-\varepsilon)M^\star\).
+
+On the all-\(e_1\) history, \(V_t\) is diagonal with first entry \(t\), \(\det V_t=t\), and the sum of widths equals \(\sum_{s\le t}s^{-1/2}\le2\sqrt t\). Therefore \(b_t/t\to0\) on this history for fixed \(c,\pi,\alpha\), independently of \(d\) and \(\eta\). Choose an integer \(T\ge2\) on this deterministic history with \(b_T/T<1/14\). Then \(T_t/t=1/2\) throughout the history and \(U_t>0\). At \(T\) the stopping inequality becomes
+\[
+                \frac12-\frac{b_T}{T}>
+                \frac34\left(\frac12+\frac{b_T}{T}\right),
+\]
+which is equivalent to \(b_T/T<1/14\). The algorithm stops positively at or before \(T\) whenever it plays only \(e_1\) until stopping or \(T\).
+
+\section{Probability of that history}
+Set \(W=1+\sqrt{\log(2/\alpha)/2+\log(1+T)/4}\). On a history consisting of \(e_1\) plays, \(\omega_t\le W\) through \(T\). At each \(t\ge2\) on that history the ridge score of \(e_1\) is \((t-1)/(2t)\ge1/4\), and the others' ridge scores are zero. If \(|\zeta_{t,1}|,|\zeta_{t,2}|\le1/(16W)\), the perturbed score of \(e_1\) is at least \(3/16\), and that of \(e_2\) is at most \(1/16\). This uses \(V_t^{-1/2}\) diagonal with first entry \(1/\sqrt t\) and remaining entries one. For each additional vertex \(\eta e_j\) the score is at most \(\eta c W\). Thus for \(\eta cW<1/16\) the action is uniquely \(e_1\).
+
+Draw a virtual sequence of all directions even after actual stopping. By symmetry \(\mathbb E\zeta_{t,j}^2=c^2/d\). Markov's inequality and a union bound over two coordinates and \(T-1\) rounds give
+\[
+ \Pr\{\text{a required coordinate bound fails in rounds }2,\ldots,T\}
+ \le \frac{512(T-1)c^2W^2}{d}.
+\]
+Choose \(d\ge3\) with \(d>8192Tc^2W^2\) to make the bound less than \(1/16\).
+
+At initialization the ridge estimate is zero, and the common scale \(\omega_1\) has no effect on the maximizing vertex. The event \(\zeta_{1,1}>\max(0,\zeta_{1,2})\) has probability \(3/8\): opposite signs with positive first coordinate contribute \(1/4\); the first coordinate wins half of the joint positive quadrant, contributing \(1/8\). The sphere coordinate law is continuous. Choose \(0<\eta\le1\) small enough to have both \(\eta cW<1/16\) and \(\Pr(0<\zeta_{1,1}\le\eta c)<1/16\). It follows that with probability at least \(5/16\),
+\(\zeta_{1,1}>\max(0,\zeta_{1,2},\eta c)\), which makes \(e_1\) the unique initial action. Intersect with the later coordinate bounds. The probability is at least \(5/16-1/16=1/4\), and induction gives only \(e_1\) plays until stopping or \(T\). The positive stopping then returns \(e_1\). No scalar certificate can satisfy \(1/2\ge M_{\rm out}\ge9/16\). This proves the theorem for each internal confidence parameter.
+
+\section{Comparison with prior results}
+The theoretical FAST guarantee in~\cite[Theorem~9]{GPSS} uses a perturbation with verified optimism. A sphere of radius proportional to \(\sqrt d\) and an isotropic Gaussian are analyzed at different scales in that work. The present construction concerns the fixed-radius spherical option in the practical discussion and the unchanged Algorithm~1 boundary. The simulations in Appendix~B also consider a refined experimental boundary. Earlier Thompson sampling analyses use optimism to control regret~\cite{AL}, while examples of failed exploration give regret lower bounds or trapping under different policies~\cite{HB}. Here the all-\(e_1\) history crosses the actual FAST stopping threshold in finite time. This gives a failure of the stated near-optimal margin guarantee even though the returned action has strictly positive margin.
+
+\section*{Research disclosure}
+Under human direction, ChatGPT Astra 6.2 (OpenAI) generated the discovery proof and original replay packet. OpenAI Codex reviewed the mathematics and revised the manuscript. GPT-6.2 Sol checked the primary literature and prepared the worked example, replay, visual and release files. DannyExperiments maintains the repository and is the preferred citation identity. No AI system is proposed as an author.
+
+\begin{thebibliography}{9}
+\bibitem{GPSS} A. Gangrade, A. Pacchiano, C. Scott and V. Saligrama, Feasible Action Search for Bandit Linear Programs via Thompson Sampling, ICML 2025, PMLR 267, 18228--18256. \href{https://proceedings.mlr.press/v267/gangrade25a.html}{Proceedings}.
+\bibitem{AL} M. Abeille and A. Lazaric, Linear Thompson Sampling Revisited, AISTATS 2017, PMLR 54, 176--184. \href{https://proceedings.mlr.press/v54/abeille17a.html}{Proceedings}.
+\bibitem{HB} N. Hamidi and M. Bayati, On Frequentist Regret of Linear Thompson Sampling, \href{https://arxiv.org/abs/2006.06790}{arXiv:2006.06790}.
+\end{thebibliography}
+\end{document}

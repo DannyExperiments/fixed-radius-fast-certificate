@@ -1,0 +1,30 @@
+{
+  "title": "Premature certification under fixed-radius FAST sampling",
+  "upload_type": "software",
+  "version": "1.0.0",
+  "publication_date": "2026-11-27",
+  "creators": [
+    {
+      "name": "DannyExperiments"
+    }
+  ],
+  "description": "For every fixed positive spherical radius and fixed optimism parameter, FAST with its published stopping boundary can certify a suboptimal action with probability at least one quarter.\n\nThe counterexample has a single noiseless constraint and a full-dimensional simplex. In high dimension the first two perturbation coordinates are small enough to keep a repeatedly played vertex ahead of the optimizer. Meanwhile the normalized FAST boundary on the repeated-vertex history decreases to zero, so the procedure stops with a true margin of one half against an optimum of three quarters.\n\nGangrade, Pacchiano, Scott and Saligrama ask about practical small-noise reliability in their ICML 2025 paper, with the spherical recommendation specified in Appendix B. Earlier Thompson sampling counterexamples involve regret and trapping under different policies. This example evaluates the exact FAST certificate inequality. Exact replay checks conservative finite parameters and the strict stopping inequality at 29 explorer settings. The theorem uses the unchanged boundary and fixed-radius spherical law. The returned vertex is feasible and fails the required near-optimal margin. External peer review is pending.\n\nUnder human direction, ChatGPT Astra 6.2 (OpenAI) generated the discovery proof and original replay packet. OpenAI Codex reviewed the mathematics and revised the manuscript. GPT-6.2 Sol checked the primary literature and prepared the worked example, replay, visual and release files. DannyExperiments maintains the repository and is the preferred citation identity. No AI system is proposed as an author.",
+  "keywords": [
+    "feasible action search",
+    "Thompson sampling",
+    "linear bandits",
+    "stopping rules",
+    "spherical perturbation",
+    "near-optimality certificates"
+  ],
+  "access_right": "open",
+  "license": "other-closed",
+  "notes": "All rights reserved. Publicly downloadable files are supplied without a repository-wide reuse license.",
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/DannyExperiments/fixed-radius-fast-certificate/releases/tag/v1.0.0",
+      "relation": "isSupplementTo",
+      "resource_type": "software"
+    }
+  ]
+}

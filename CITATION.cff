@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "Cite this version of the research release."
+title: "Premature certification under fixed-radius FAST sampling"
+authors:
+  - name: "DannyExperiments"
+type: software
+version: "1.0.0"
+date-released: 2026-11-27
+repository-code: "https://github.com/DannyExperiments/fixed-radius-fast-certificate"
+keywords:
+  - "feasible action search"
+  - "Thompson sampling"
+  - "linear bandits"
+  - "stopping rules"
+  - "spherical perturbation"
+  - "near-optimality certificates"
+doi: "10.5281/zenodo.24572903"
+url: "https://doi.org/10.5281/zenodo.24572903"
+preferred-citation:
+  type: software
+  title: "Premature certification under fixed-radius FAST sampling"
+  authors:
+    - name: "DannyExperiments"
+  version: "1.0.0"
+  date-released: 2026-11-27
+  doi: "10.5281/zenodo.24572903"
+  url: "https://doi.org/10.5281/zenodo.24572903"
+  repository-code: "https://github.com/DannyExperiments/fixed-radius-fast-certificate"
